@@ -1,0 +1,22 @@
+{
+  "name": "team-profile-generator",
+  "version": "1.0.0",
+  "description": "Team Profile Generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YipChiSan/Team-Profile-Generator.git"
+  },
+  "author": "Zixin Ye",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YipChiSan/Team-Profile-Generator/issues"
+  },
+  "homepage": "https://github.com/YipChiSan/Team-Profile-Generator#readme",
+  "dependencies": {
+    "inquirer": "^8.2.4"
+  }
+}
