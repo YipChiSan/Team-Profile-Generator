@@ -1,10 +1,15 @@
 const inquirer = require('inquirer');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
+const Manager = require('./lib/Manager');
 
 const answerLists = {
     managers: [],
     engineers: [],
     interns: [],
 };
+
+let curInputType = "managers";
 
 const managerQuestionList = [
     {
@@ -96,7 +101,23 @@ const internQuestionList = [
 function getInput(questions) {
     return inquirer.prompt(questions)
             .then((answers) => {
-                answerLists.managers.push(answers);
+                if (curInputType === "Manager"){
+                    let manager = new Manager(answers.managerName, answers.managerEID, answers.managerEmail, answers.engineerGithub);
+                    answerLists.managers.push(manager);
+                }
+
+                if (curInputType === "Engineer"){
+                    let engineer = new Engineer(answers.engineerName, answers.engineerEID, answers.engineerEmail, answers.managerOfficeNumber);
+                    answerLists.engineers.push(engineer);
+                }
+
+                if (curInputType === "Intern"){
+                    let intern = new Intern(answers.internName, answers.internEID, answers.internEmail, answers.internSchool);
+                    answerLists.interns.push(intern);
+                }
+
+                curInputType = answers.inputType;
+                
                 if (answers.inputType === "Manager") {
                     return getInput(managerQuestionList);
                 } else if (answers.inputType === "Engineer") {
