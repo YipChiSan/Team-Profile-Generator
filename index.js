@@ -2,6 +2,8 @@ const inquirer = require('inquirer');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
+const displayOnHTML = require('./src/util');
+const fs = require('fs');
 
 const answerLists = {
     managers: [],
@@ -9,7 +11,7 @@ const answerLists = {
     interns: [],
 };
 
-let curInputType = "managers";
+let curInputType = "Manager";
 
 const managerQuestionList = [
     {
@@ -102,12 +104,12 @@ function getInput(questions) {
     return inquirer.prompt(questions)
             .then((answers) => {
                 if (curInputType === "Manager"){
-                    let manager = new Manager(answers.managerName, answers.managerEID, answers.managerEmail, answers.engineerGithub);
+                    let manager = new Manager(answers.managerName, answers.managerEID, answers.managerEmail, answers.managerOfficeNumber);
                     answerLists.managers.push(manager);
                 }
 
                 if (curInputType === "Engineer"){
-                    let engineer = new Engineer(answers.engineerName, answers.engineerEID, answers.engineerEmail, answers.managerOfficeNumber);
+                    let engineer = new Engineer(answers.engineerName, answers.engineerEID, answers.engineerEmail, answers.engineerGithub);
                     answerLists.engineers.push(engineer);
                 }
 
@@ -130,3 +132,16 @@ function getInput(questions) {
             })
 }
 
+function writeToFile(fileName, data) {
+  fs.appendFile(fileName, data, () => console.log("Done"));
+}
+
+function init() {
+    getInput(managerQuestionList)
+        .then(() => {
+            let htmlFile = displayOnHTML(answerLists);
+            writeToFile("./dist/output.html", htmlFile);
+        })
+}
+
+init();
